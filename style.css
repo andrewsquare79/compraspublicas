@@ -1,0 +1,144 @@
+body {
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  margin: 10px;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+h1 {
+  text-align: center;
+  flex: 1;
+  font-size: 16px;
+}
+
+/* LOGO */
+.logo-container {
+  background: white;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.logo {
+  width: 90px;
+}
+
+.flag {
+  width: 30px;
+}
+
+/* KPIS */
+.kpis {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.kpi {
+  background: #1e293b;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+/* FILTROS */
+.filters {
+  margin: 15px 0;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  max-height: 100px;
+  overflow: auto;
+}
+
+.filter-btn {
+  padding: 10px;
+  border-radius: 20px;
+  background: #1e293b;
+  border: none;
+  color: white;
+  flex: 1 1 40%;
+}
+
+.filter-btn.active {
+  background: #38bdf8;
+  color: black;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  background: red;
+  color: white;
+  border: none;
+}
+
+/* CHARTS */
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background: #1e293b;
+  padding: 10px;
+  height: 280px;
+}
+
+.full {
+  height: 300px;
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* RANKING */
+.ranking {
+  background: #1e293b;
+  padding: 10px;
+}
+
+td {
+  padding: 4px;
+}
+
+/* DESKTOP */
+@media (min-width: 900px) {
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .kpis {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .main {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+  }
+
+  .charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+
+  .card.full {
+    grid-column: span 2;
+  }
+
+}
