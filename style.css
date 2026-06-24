@@ -1,12 +1,3 @@
-card {
-  height: 280px;
-}
-
-canvas {
-  width: 100% !important;
-  height: 100% !important;
-}
-
 body {
   font-family: Arial;
   background: #0f172a;
@@ -16,15 +7,14 @@ body {
 
 /* HEADER */
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
 }
 
 h1 {
   text-align: center;
-  flex: 1;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 /* LOGO */
@@ -42,7 +32,7 @@ h1 {
   width: 30px;
 }
 
-/* KPIS */
+/* KPIs */
 .kpis {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -59,22 +49,24 @@ h1 {
 /* FILTROS */
 .filters {
   margin: 15px 0;
+  text-align: center;
 }
 
 .filter-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  max-height: 100px;
-  overflow: auto;
+  max-height: 120px;
+  overflow-y: auto;
 }
 
 .filter-btn {
   padding: 10px;
   border-radius: 20px;
   background: #1e293b;
-  border: none;
   color: white;
+  border: none;
+  cursor: pointer;
   flex: 1 1 40%;
 }
 
@@ -92,21 +84,23 @@ button {
   border: none;
 }
 
-/* CHARTS */
+/* MAIN */
 .main {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
+/* CHARTS */
 .card {
   background: #1e293b;
   padding: 10px;
+  border-radius: 8px;
   height: 280px;
 }
 
 .full {
-  height: 300px;
+  height: 320px;
 }
 
 canvas {
@@ -121,15 +115,11 @@ canvas {
 }
 
 td {
-  padding: 4px;
+  padding: 5px;
 }
 
 /* DESKTOP */
 @media (min-width: 900px) {
-
-  h1 {
-    font-size: 20px;
-  }
 
   .kpis {
     grid-template-columns: repeat(4, 1fr);
@@ -138,6 +128,7 @@ td {
   .main {
     display: grid;
     grid-template-columns: 3fr 1fr;
+    gap: 20px;
   }
 
   .charts {
@@ -146,7 +137,7 @@ td {
     gap: 15px;
   }
 
-  .card.full {
+  .full {
     grid-column: span 2;
   }
 
