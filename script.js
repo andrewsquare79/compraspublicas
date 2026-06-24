@@ -4,13 +4,19 @@ let data = [];
 let charts = {};
 let filters = { Empresa: [], Nivel: [], Material: [] };
 
-/* LOAD */
 Papa.parse(URL, {
   download: true,
   header: true,
   skipEmptyLines: true,
   complete: res => {
+
+    console.log("RAW:", res.data.length);
+
     data = res.data.map(cleanRow).filter(r => r.Cantidad > 0);
+
+    console.log("CLEAN:", data.length);
+    console.log(data[0]);
+
     init();
   }
 });
@@ -25,13 +31,11 @@ function cleanRow(r) {
   };
 }
 
-/* INIT */
 function init() {
   buildFilters();
   render();
 }
 
-/* FILTER UI */
 function buildFilters() {
   createBtns("empresaFilter", unique("Empresa"), "Empresa");
   createBtns("nivelFilter", unique("Nivel"), "Nivel");
@@ -71,7 +75,6 @@ function unique(k) {
   return [...new Set(data.map(d => d[k]).filter(Boolean))];
 }
 
-/* DATA */
 function filtered() {
   return data.filter(d =>
     (!filters.Empresa.length || filters.Empresa.includes(d.Empresa)) &&
@@ -80,16 +83,13 @@ function filtered() {
   );
 }
 
-/* RENDER */
 function render() {
   const d = filtered();
-
   updateKPIs(d);
   updateRanking(d);
   drawCharts(d);
 }
 
-/* KPIS */
 function updateKPIs(d) {
   let total = 0, emp = new Set(), tec = {}, niv = {};
 
@@ -115,7 +115,6 @@ function top(obj) {
   return Object.keys(obj).reduce((a,b)=> obj[a]>obj[b]?a:b,"-");
 }
 
-/* RANK */
 function updateRanking(d) {
   const t = group(d,"Tecnologia");
   const el = document.getElementById("rankingTable");
@@ -127,7 +126,6 @@ function updateRanking(d) {
     });
 }
 
-/* GROUP */
 function group(d, k) {
   return d.reduce((a,x)=>{
     a[x[k]] = (a[x[k]]||0)+x.Cantidad;
@@ -135,7 +133,6 @@ function group(d, k) {
   },{});
 }
 
-/* CHARTS */
 function drawCharts(d) {
   Object.values(charts).forEach(c => c?.destroy());
 
