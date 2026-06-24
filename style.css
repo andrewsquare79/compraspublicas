@@ -84,6 +84,11 @@ body {
   flex-wrap: wrap;
   gap: 6px;
   justify-content: center;
+
+  /* BONUS: centrado visual tipo ejecutivo */
+  max-width: 800px;
+  margin: auto;
+
   max-height: 120px;
   overflow-y: auto;
 }
@@ -92,7 +97,6 @@ body {
 .filter-btn {
   background: #1e293b;
   border: 1px solid #334155;
-  color: white;
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -198,11 +202,10 @@ footer {
 }
 
 /* =========================
-   MOBILE FIRST
+   MOBILE
 ========================= */
 @media (max-width: 900px) {
 
-  /* BOTONES MOVIL (GRANDES) */
   .filter-btn {
     padding: 12px;
     font-size: 14px;
@@ -221,7 +224,7 @@ footer {
 }
 
 /* =========================
-   DESKTOP (CLAVE)
+   DESKTOP (FIX CLAVE)
 ========================= */
 @media (min-width: 900px) {
 
@@ -247,12 +250,14 @@ footer {
     grid-column: span 2;
   }
 
-  /* 🔥 BOTONES COMPACTOS */
+  /* 🔥 BOTONES CORREGIDOS (clave de tu problema) */
   .filter-btn {
     padding: 6px 10px;
     font-size: 12px;
-    flex: 0 0 auto;   /* evita que se expandan */
+
+    flex: 0 0 auto;      /* evita expansión */
+    width: auto;         /* tamaño natural */
+    white-space: nowrap; /* no saltos */
   }
 
 }
-``
