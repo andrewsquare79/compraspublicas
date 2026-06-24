@@ -1,27 +1,34 @@
+/* =========================
+   BASE
+========================= */
 body {
-  font-family: Arial;
+  font-family: 'Segoe UI', Arial, sans-serif;
   background: #0f172a;
   color: white;
   margin: 10px;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 .header {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
+  gap: 10px;
 }
 
-h1 {
+.header h1 {
   text-align: center;
   font-size: 18px;
+  line-height: 1.2;
 }
 
 /* LOGO */
 .logo-container {
   background: white;
-  padding: 5px;
-  border-radius: 6px;
+  padding: 5px 10px;
+  border-radius: 8px;
 }
 
 .logo {
@@ -32,74 +39,119 @@ h1 {
   width: 30px;
 }
 
-/* KPIs */
+/* =========================
+   KPIs
+========================= */
 .kpis {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+  margin: 15px 0;
 }
 
 .kpi {
   background: #1e293b;
-  padding: 10px;
+  padding: 12px;
+  border-radius: 10px;
   text-align: center;
-  border-radius: 8px;
 }
 
-/* FILTROS */
+.kpi h3 {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.kpi p {
+  font-size: 18px;
+  font-weight: bold;
+  color: #38bdf8;
+}
+
+/* =========================
+   FILTROS (SLICERS)
+========================= */
 .filters {
   margin: 15px 0;
   text-align: center;
 }
 
+.filter-group {
+  margin-bottom: 10px;
+}
+
 .filter-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 6px;
+  justify-content: center;
   max-height: 120px;
   overflow-y: auto;
 }
 
+/* BOTONES BASE */
 .filter-btn {
-  padding: 10px;
-  border-radius: 20px;
   background: #1e293b;
+  border: 1px solid #334155;
   color: white;
-  border: none;
+  border-radius: 20px;
   cursor: pointer;
-  flex: 1 1 40%;
+  transition: all 0.2s ease;
 }
 
+/* INTERACCIÓN */
+.filter-btn:hover {
+  background: #334155;
+}
+
+.filter-btn:active {
+  transform: scale(0.95);
+}
+
+/* ACTIVO */
 .filter-btn.active {
   background: #38bdf8;
   color: black;
+  font-weight: bold;
+  box-shadow: 0 0 8px rgba(56,189,248,0.5);
 }
 
+/* BOTÓN RESET */
 button {
   margin-top: 10px;
   padding: 10px;
-  width: 100%;
-  background: red;
+  background: #ef4444;
   color: white;
   border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-/* MAIN */
+/* =========================
+   LAYOUT
+========================= */
 .main {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* CHARTS */
+/* =========================
+   CHARTS
+========================= */
+.charts {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 .card {
   background: #1e293b;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   height: 280px;
 }
 
-.full {
+.card.full {
   height: 320px;
 }
 
@@ -108,23 +160,77 @@ canvas {
   height: 100% !important;
 }
 
-/* RANKING */
+/* =========================
+   RANKING
+========================= */
 .ranking {
   background: #1e293b;
-  padding: 10px;
+  padding: 15px;
+  border-radius: 10px;
 }
 
-td {
-  padding: 5px;
+.ranking h3 {
+  margin-bottom: 10px;
 }
 
-/* DESKTOP */
+.ranking table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ranking td {
+  padding: 6px;
+  border-bottom: 1px solid #334155;
+}
+
+.ranking tr:hover {
+  background: #334155;
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* =========================
+   MOBILE FIRST
+========================= */
+@media (max-width: 900px) {
+
+  /* BOTONES MOVIL (GRANDES) */
+  .filter-btn {
+    padding: 12px;
+    font-size: 14px;
+    flex: 1 1 45%;
+  }
+
+  .kpis {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .header {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+}
+
+/* =========================
+   DESKTOP (CLAVE)
+========================= */
 @media (min-width: 900px) {
 
+  /* KPIs */
   .kpis {
     grid-template-columns: repeat(4, 1fr);
   }
 
+  /* LAYOUT */
   .main {
     display: grid;
     grid-template-columns: 3fr 1fr;
@@ -137,8 +243,16 @@ td {
     gap: 15px;
   }
 
-  .full {
+  .card.full {
     grid-column: span 2;
   }
 
+  /* 🔥 BOTONES COMPACTOS */
+  .filter-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+    flex: 0 0 auto;   /* evita que se expandan */
+  }
+
 }
+``
