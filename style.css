@@ -1,3 +1,12 @@
+card {
+  height: 280px;
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 body {
   font-family: Arial;
   background: #0f172a;
