@@ -4,6 +4,7 @@ let data = [];
 let charts = {};
 let filters = { Empresa: [], Nivel: [], Material: [] };
 
+/* LOAD CSV */
 Papa.parse(URL, {
   download: true,
   header: true,
@@ -15,12 +16,12 @@ Papa.parse(URL, {
     data = res.data.map(cleanRow).filter(r => r.Cantidad > 0);
 
     console.log("CLEAN:", data.length);
-    console.log(data[0]);
 
     init();
   }
 });
 
+/* LIMPIEZA */
 function cleanRow(r) {
   return {
     Empresa: (r.Empresa || "").trim(),
@@ -31,11 +32,13 @@ function cleanRow(r) {
   };
 }
 
+/* INIT */
 function init() {
   buildFilters();
   render();
 }
 
+/* FILTROS */
 function buildFilters() {
   createBtns("empresaFilter", unique("Empresa"), "Empresa");
   createBtns("nivelFilter", unique("Nivel"), "Nivel");
@@ -75,7 +78,8 @@ function unique(k) {
   return [...new Set(data.map(d => d[k]).filter(Boolean))];
 }
 
-function filtered() {
+/* DATA */
+function filteredData() {
   return data.filter(d =>
     (!filters.Empresa.length || filters.Empresa.includes(d.Empresa)) &&
     (!filters.Nivel.length || filters.Nivel.includes(d.Nivel)) &&
@@ -83,13 +87,16 @@ function filtered() {
   );
 }
 
+/* DASHBOARD */
 function render() {
-  const d = filtered();
+  const d = filteredData();
+
   updateKPIs(d);
   updateRanking(d);
   drawCharts(d);
 }
 
+/* KPIS */
 function updateKPIs(d) {
   let total = 0, emp = new Set(), tec = {}, niv = {};
 
@@ -100,53 +107,64 @@ function updateKPIs(d) {
     niv[x.Nivel] = (niv[x.Nivel] || 0) + x.Cantidad;
   });
 
-  set("totalKPI", total);
-  set("empresasKPI", emp.size);
-  set("topTecKPI", top(tec));
-  set("topNivelKPI", top(niv));
+  setValue("totalKPI", total);
+  setValue("empresasKPI", emp.size);
+  setValue("topTecKPI", getTopValue(tec));
+  setValue("topNivelKPI", getTopValue(niv));
 }
 
-function set(id, val) {
+function setValue(id, val) {
   document.getElementById(id).innerText =
     typeof val === "number" ? Math.round(val).toLocaleString() : val;
 }
 
-function top(obj) {
+/* FIX DEL ERROR ORIGINAL */
+function getTopValue(obj) {
   return Object.keys(obj).reduce((a,b)=> obj[a]>obj[b]?a:b,"-");
 }
 
+/* RANKING */
 function updateRanking(d) {
-  const t = group(d,"Tecnologia");
+  const grouped = group(d,"Tecnologia");
   const el = document.getElementById("rankingTable");
   el.innerHTML = "";
 
-  Object.entries(t).sort((a,b)=>b[1]-a[1]).slice(0,10)
+  Object.entries(grouped)
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,10)
     .forEach((r,i)=>{
-      el.innerHTML += `<tr><td>${i+1}</td><td>${r[0]}</td><td>${Math.round(r[1]).toLocaleString()}</td></tr>`;
+      el.innerHTML += `
+        <tr>
+          <td>${i+1}</td>
+          <td>${r[0]}</td>
+          <td>${Math.round(r[1]).toLocaleString()}</td>
+        </tr>`;
     });
 }
 
-function group(d, k) {
+/* GROUP */
+function group(d, key) {
   return d.reduce((a,x)=>{
-    a[x[k]] = (a[x[k]]||0)+x.Cantidad;
+    a[x[key]] = (a[x[key]]||0)+x.Cantidad;
     return a;
   },{});
 }
 
+/* CHARTS */
 function drawCharts(d) {
   Object.values(charts).forEach(c => c?.destroy());
 
-  charts.tech = chart("techChart","bar", group(d,"Tecnologia"));
-  charts.mat = chart("materialChart","pie", group(d,"Material"));
-  charts.niv = chart("nivelChart","bar", group(d,"Nivel"));
+  charts.tech = createChart("techChart","bar", group(d,"Tecnologia"));
+  charts.mat = createChart("materialChart","pie", group(d,"Material"));
+  charts.niv = createChart("nivelChart","bar", group(d,"Nivel"));
 }
 
-function chart(id, type, obj) {
+function createChart(id, type, dataset) {
   return new Chart(document.getElementById(id), {
     type,
     data: {
-      labels: Object.keys(obj),
-      datasets: [{ data: Object.values(obj) }]
+      labels: Object.keys(dataset),
+      datasets: [{ data: Object.values(dataset) }]
     },
     options: {
       responsive: true,
